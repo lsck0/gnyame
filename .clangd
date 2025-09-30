@@ -1,0 +1,38 @@
+CompileFlags:
+  Compiler: clang
+  Add:
+    [
+      -xc,
+      -std=c23,
+      -fenable-matrix,
+      -pedantic,
+      -Wall,
+      -Wextra,
+      -Wpedantic,
+      -Wno-gnu,
+      -Wno-gcc-compat,
+      -Wno-empty-translation-unit,
+    ]
+
+Diagnostics:
+  UnusedIncludes: None
+  ClangTidy:
+    Add:
+      [
+        bugprone-*,
+        cert-*,
+        clang-analyzer-*,
+        concurrency-*,
+        linuxkernel-*,
+        misc-*,
+        modernize-*,
+        performance-*,
+        portability-*,
+        readability-*,
+      ]
+    Remove:
+      [
+        readability-braces-around-statements,
+        readability-identifier-length,
+        readability-magic-numbers,
+      ]

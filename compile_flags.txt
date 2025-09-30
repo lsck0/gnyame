@@ -1,0 +1,4 @@
+-DIS_DEBUG=true
+-I./src/
+-I./vendor/
+-I./vendor/sdl/include/

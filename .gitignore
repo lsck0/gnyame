@@ -1,0 +1,10 @@
+**/.cache/
+**/build-linux/
+**/build-windows/
+**/build/
+**/reports/
+**doxygen/
+
+*.debug*
+*.linux_x86_64.*
+*.windows_x86_64.*
