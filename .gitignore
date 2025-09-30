@@ -1,0 +1,9 @@
+**/build/
+**/build-linux/
+**/build-windows/
+**/.cache/
+**/reports/
+
+*.debug*
+*.linux_x86_64.*
+*.windows_x86_64.*

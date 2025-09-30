@@ -1,0 +1,62 @@
+BasedOnStyle: LLVM
+
+AlignAfterOpenBracket: BlockIndent
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AlignCompound: true
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: false
+AlignEscapedNewlines: Right
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 0
+AlignOperands: AlignAfterOperator
+AllowAllArgumentsOnNextLine: false
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+BinPackArguments: false
+BreakAfterAttributes: Always
+ColumnLimit: 120
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: "^<.*>$"
+    Priority: 1
+  - Regex: '^"nyangine/.*$'
+    Priority: 2
+  - Regex: '^"gnyame/.*$'
+    Priority: 3
+  - Regex: '^".*"$'
+    Priority: 4
+IndentCaseLabels: true
+IndentWidth: 2
+PointerAlignment: Left
+SortIncludes: CaseInsensitive
+ForEachMacros:
+  - range_for
+  - array_for
+  - array_for_reverse
+  - array_foreach
+  - array_foreach_reverse
+  - hmap_foreach_key
+  - hmap_foreach_value
+  - hset_foreach
+TypenameMacros:
+  - derive_array
+  - derive_hmap
+  - derive_hset
