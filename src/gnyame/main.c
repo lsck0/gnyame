@@ -2,50 +2,33 @@
 
 #include "nyangine/nyangine.h"
 
-#include "SDL3/SDL_render.h"
-#include "SDL3/SDL_video.h"
-
 const char* WINDOW_TITLE  = "Hello World";
 const s32   WINDOW_WIDTH  = 1280;
 const s32   WINDOW_HEIGHT = 720;
 
 s32 main(s32 argc, char** argv) {
-  (void)argc;
-  (void)argv;
+  unused(argc, argv);
 
-  bool ok = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-  if (!ok) {
-    SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_Init(): %s\n", SDL_GetError());
-    return -1;
-  }
+  bool ok;
+
+  ok = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+  nya_assert(ok, "SDL_Init() failed: %s", SDL_GetError());
 
   SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
-  if (window == nullptr) {
-    SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_CreateWindow(): %s\n", SDL_GetError());
-    return -1;
-  }
+  nya_assert(window != nullptr, "SDL_CreateWindow() failed: %s", SDL_GetError());
 
   SDL_GPUDevice* gpu_device = SDL_CreateGPUDevice(
       SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_METALLIB | SDL_GPU_SHADERFORMAT_SPIRV,
       NYA_IS_DEBUG,
       nullptr
   );
-  if (gpu_device == nullptr) {
-    SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_CreateGPUDevice(): %s\n", SDL_GetError());
-    return -1;
-  }
+  nya_assert(gpu_device != nullptr, "SDL_CreateGPUDevice() failed: %s", SDL_GetError());
 
   ok = SDL_ClaimWindowForGPUDevice(gpu_device, window);
-  if (!ok) {
-    SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_ClaimWindowForGPUDevice(): %s\n", SDL_GetError());
-    return -1;
-  }
+  nya_assert(ok, "SDL_ClaimWindowForGPUDevice() failed: %s", SDL_GetError());
 
   ok = SDL_SetGPUSwapchainParameters(gpu_device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX);
-  if (!ok) {
-    SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_SetGPUSwapchainParameters(): %s\n", SDL_GetError());
-    return -1;
-  }
+  nya_assert(ok, "SDL_SetGPUSwapchainParameters() failed: %s", SDL_GetError());
 
   bool should_quit = false;
   while (!should_quit) {
@@ -77,10 +60,7 @@ s32 main(s32 argc, char** argv) {
           .store_op    = SDL_GPU_STOREOP_STORE,
       };
       SDL_GPURenderPass* render_pass = SDL_BeginGPURenderPass(command_buffer, &target_info, 1, nullptr);
-      if (render_pass == nullptr) {
-        SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "SDL_BeginGPURenderPass(): %s\n", SDL_GetError());
-        return -1;
-      }
+      nya_assert(render_pass != nullptr, "SDL_BeginGPURenderPass() failed");
 
       // rendering ...
 

@@ -29,6 +29,3 @@
 #define __attr_sized_by_or_null(type)   __attribute__((sized_by_or_null(type)))
 #define __attr_used                     __attribute__((__used__))
 #define __attr_vector(size)             __attribute__((ext_vector_type(size)))
-
-#define likely(expr)   __builtin_expect(!!(expr), 1)
-#define unlikely(expr) __builtin_expect(!!(expr), 0)
