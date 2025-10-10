@@ -39,6 +39,8 @@ typedef double   f64;
 #define FMTs16 "%" PRId16
 #define FMTs32 "%" PRId32
 #define FMTs64 "%" PRId64
+#define FMTf32 "%f"
+#define FMTf64 "%lf"
 
 static_assert(sizeof(u8) == 1);
 static_assert(sizeof(u16) == 2);

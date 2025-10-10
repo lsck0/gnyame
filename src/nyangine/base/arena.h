@@ -17,6 +17,7 @@ typedef struct NYA_Arena NYA_Arena;
 #define nya_arena_copy(dst, ptr, size)                    _nya_arena_debug_copy(dst, ptr, size, __FUNCTION__, __FILE__, __LINE__)
 #define nya_arena_move(src, dst, ptr, size)               _nya_arena_debug_move(src, dst, ptr, size, __FUNCTION__, __FILE__, __LINE__)
 
+// clang-format off
 extern NYA_Arena* _nya_arena_debug_new(const char* function, const char* file, u32 line);
 extern void*      _nya_arena_debug_alloc(NYA_Arena* arena, u64 size, const char* function, const char* file, u32 line) __attr_malloc;
 extern void*      _nya_arena_debug_realloc(NYA_Arena* arena, const void* ptr, u64 old_size, u64 new_size, const char* function, const char* file, u32 line);
@@ -25,6 +26,7 @@ extern void       _nya_arena_debug_free_all(NYA_Arena* arena, const char* functi
 extern void       _nya_arena_debug_destroy(NYA_Arena* arena, const char* function, const char* file, u32 line);
 extern void*      _nya_arena_debug_copy(NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line);
 extern void*      _nya_arena_debug_move(NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line);
+// clang-format on
 
 #else
 

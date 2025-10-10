@@ -1,6 +1,6 @@
-#include "nyangine/base/logging.h"
+#include "nyangine/base.h"
 
-int main(void) {
+s32 main(void) {
   nya_log_level_set(NYA_LOG_LEVEL_DEBUG);
 
   nya_debug("Hello");

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nyangine/base/arena.h"
+#include "nyangine/base/array.h"
 #include "nyangine/base/ints.h"
 
 // use like: nya_debug("string: "NYA_FMT_STRING"\n", NYA_FMT_STRING_ARG(str))
@@ -13,13 +14,7 @@ typedef struct {
   u8*        items;
   NYA_Arena* arena;
 } NYA_String;
-
-typedef struct {
-  u32         length;
-  u32         capacity;
-  NYA_String* items;
-  NYA_Arena*  arena;
-} NYA_StringArray;
+nya_derive_array(NYA_String);
 
 extern bool            nya_string_contains(const NYA_String* str, const char* substr) __attr_overloaded;
 extern bool            nya_string_contains(const NYA_String* str, const NYA_String* substr) __attr_overloaded;

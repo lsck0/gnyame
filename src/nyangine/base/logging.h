@@ -20,6 +20,8 @@ typedef enum {
   NYA_LOG_LEVEL_COUNT,
 } NYA_LogLevel;
 
+// clang-format off
 extern NYA_LogLevel nya_log_level_get(void);
 extern void         nya_log_level_set(NYA_LogLevel level);
 extern void         _nya_log_message(NYA_LogLevel level, const char* function, const char* file, u32 line, const char* format, ...) __attr_fmt_printf(5, 6);
+// clang-format on
