@@ -1,5 +1,6 @@
 #pragma once
 
+#include "nyangine/base/arena.h"
 #include "nyangine/base/assert.h"
 #include "nyangine/base/attributes.h"
 #include "nyangine/base/ints.h"

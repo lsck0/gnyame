@@ -32,6 +32,9 @@ Diagnostics:
       ]
     Remove:
       [
+        cert-dcl37-c,
+        cert-dcl51-cpp,
+        bugprone-reserved-identifier,
         readability-braces-around-statements,
         readability-identifier-length,
         readability-magic-numbers,
