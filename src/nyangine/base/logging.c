@@ -44,5 +44,5 @@ void _nya_log_message(NYA_LogLevel level, const char* function, const char* file
 
   (void)printf("\n");
 
-  if (unlikely(level == NYA_LOG_LEVEL_PANIC)) abort();
+  if (nya_unlikely(level == NYA_LOG_LEVEL_PANIC)) abort();
 }

@@ -70,43 +70,43 @@ NYA_Arena* _nya_arena_nodebug_new(void) {
 }
 
 void* _nya_arena_nodebug_alloc(NYA_Arena* arena, u64 size) {
-  unused(arena, size);
+  nya_unused(arena, size);
 
   nya_todo();
 }
 
 void* _nya_arena_nodebug_realloc(NYA_Arena* arena, const void* ptr, u64 old_size, u64 new_size) {
-  unused(arena, ptr, old_size, new_size);
+  nya_unused(arena, ptr, old_size, new_size);
 
   nya_todo();
 }
 
 void _nya_arena_nodebug_free(NYA_Arena* arena, const void* ptr, u64 size) {
-  unused(arena, ptr, size);
+  nya_unused(arena, ptr, size);
 
   nya_todo();
 }
 
 void _nya_arena_nodebug_free_all(NYA_Arena* arena) {
-  unused(arena);
+  nya_unused(arena);
 
   nya_todo();
 }
 
 void _nya_arena_nodebug_destroy(NYA_Arena* arena) {
-  unused(arena);
+  nya_unused(arena);
 
   nya_todo();
 }
 
 void* _nya_arena_nodebug_copy(NYA_Arena* dst, void* ptr, u64 size) {
-  unused(dst, ptr, size);
+  nya_unused(dst, ptr, size);
 
   nya_todo();
 }
 
 void* _nya_arena_nodebug_move(NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 size) {
-  unused(src, dst, ptr, size);
+  nya_unused(src, dst, ptr, size);
 
   nya_todo();
 }
@@ -118,49 +118,49 @@ void* _nya_arena_nodebug_move(NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 siz
  * */
 
 NYA_Arena* _nya_arena_debug_new(const char* function, const char* file, u32 line) {
-  unused(function, file, line);
+  nya_unused(function, file, line);
 
   nya_todo();
 }
 
 void* _nya_arena_debug_alloc(NYA_Arena* arena, u64 size, const char* function, const char* file, u32 line) {
-  unused(arena, size, function, file, line);
+  nya_unused(arena, size, function, file, line);
 
   nya_todo();
 }
 
 void* _nya_arena_debug_realloc(NYA_Arena* arena, const void* ptr, u64 old_size, u64 new_size, const char* function, const char* file, u32 line) {
-  unused(arena, ptr, old_size, new_size, function, file, line);
+  nya_unused(arena, ptr, old_size, new_size, function, file, line);
 
   nya_todo();
 }
 
 void _nya_arena_debug_free(NYA_Arena* arena, const void* ptr, u64 size, const char* function, const char* file, u32 line) {
-  unused(arena, ptr, size, function, file, line);
+  nya_unused(arena, ptr, size, function, file, line);
 
   nya_todo();
 }
 
 void _nya_arena_debug_free_all(NYA_Arena* arena, const char* function, const char* file, u32 line) {
-  unused(arena, function, file, line);
+  nya_unused(arena, function, file, line);
 
   nya_todo();
 }
 
 void _nya_arena_debug_destroy(NYA_Arena* arena, const char* function, const char* file, u32 line) {
-  unused(arena, function, file, line);
+  nya_unused(arena, function, file, line);
 
   nya_todo();
 }
 
 void* _nya_arena_debug_copy(NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line) {
-  unused(dst, ptr, size, function, file, line);
+  nya_unused(dst, ptr, size, function, file, line);
 
   nya_todo();
 }
 
 void* _nya_arena_debug_move(NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line) {
-  unused(src, dst, ptr, size, function, file, line);
+  nya_unused(src, dst, ptr, size, function, file, line);
 
   nya_todo();
 }

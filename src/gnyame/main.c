@@ -7,7 +7,7 @@ const s32   WINDOW_WIDTH  = 1280;
 const s32   WINDOW_HEIGHT = 720;
 
 s32 main(s32 argc, char** argv) {
-  unused(argc, argv);
+  nya_unused(argc, argv);
 
   bool ok;
 
