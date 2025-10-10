@@ -10,7 +10,7 @@ FLAGS               = -std=c23 -ggdb -fenable-matrix -pedantic -Wall -Wextra -Wp
 FLAGS_DEBUG         = -O0 -fsanitize=address,undefined -DIS_DEBUG=true
 FLAGS_RELEASE       = -O3
 FLAGS_LINUX         =
-FLAGS_WIN           = -static -pthread --target=x86_64-w64-mingw32
+FLAGS_WIN           = -static -pthread --target=x86_64-w64-mingw32 -Wl,-subsystem,windows
 INCLUDE_PATHS       = -I./src/ -I./vendor/sdl/include/
 LINKER_PATHS_LINUX  = -L./vendor/sdl/build-linux/
 LINKER_PATHS_WIN    = -L./vendor/sdl/build-windows/
