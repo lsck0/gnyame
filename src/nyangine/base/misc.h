@@ -5,23 +5,24 @@
 #define nya_likely(expr)   __builtin_expect(!!(expr), 1)
 #define nya_unlikely(expr) __builtin_expect(!!(expr), 0)
 
-#define nya_assert_type_match(a, b) static_assert(__builtin_types_compatible_p(typeof(a), typeof(b)), "Incompatible types.")
+#define nya_assert_type_match(a, b)                                                                                    \
+  static_assert(__builtin_types_compatible_p(typeof(a), typeof(b)), "Incompatible types.")
 
 #define nya_sizeof_field(type, member) sizeof((((type*)0)->member))
 #define nya_typeof_field(type, member) typeof(((type*)0)->member)
 #define nya_offsetof(type, member)     __builtin_offsetof(type, member)
 #define nya_offsetof_end(type, member) (offsetof(type, member) + sizeof_field(type, member))
-#define nya_container_of(ptr, type, member)                                                                                                          \
-  _Generic(                                                                                                                                          \
-      ptr,                                                                                                                                           \
-      const typeof(*(ptr))*: ((const type*)_nya_raw_container_of(ptr, type, member)),                                                                \
-      default: ((type*)_nya_raw_container_of(ptr, type, member))                                                                                     \
+#define nya_container_of(ptr, type, member)                                                                            \
+  _Generic(                                                                                                            \
+      ptr,                                                                                                             \
+      const typeof(*(ptr))*: ((const type*)_nya_raw_container_of(ptr, type, member)),                                  \
+      default: ((type*)_nya_raw_container_of(ptr, type, member))                                                       \
   )
-#define _nya_raw_container_of(ptr, type, member)                                                                                                     \
-  ({                                                                                                                                                 \
-    void* ptr_var = (void*)(ptr);                                                                                                                    \
-    assert_type_match(*(ptr), ((type*)0)->member);                                                                                                   \
-    ((type*)(ptr_var - offsetof(type, member)));                                                                                                     \
+#define _nya_raw_container_of(ptr, type, member)                                                                       \
+  ({                                                                                                                   \
+    void* ptr_var = (void*)(ptr);                                                                                      \
+    assert_type_match(*(ptr), ((type*)0)->member);                                                                     \
+    ((type*)(ptr_var - offsetof(type, member)));                                                                       \
   })
 
 #define nya_flag_set(flags, flag)    ((flags) |= (flag))

@@ -17,7 +17,6 @@ typedef enum {
   NYA_LOG_LEVEL_WARN,
   NYA_LOG_LEVEL_ERROR,
   NYA_LOG_LEVEL_PANIC,
-  NYA_LOG_LEVEL_COUNT,
 } NYA_LogLevel;
 
 // clang-format off

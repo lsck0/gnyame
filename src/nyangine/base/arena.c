@@ -57,7 +57,7 @@ struct AYA_ArenaFreeListNode {
   NYA_ArenaFreeListNode* next;
 };
 
-__attr_maybe_unused static void nya_arena_align_and_pad_size(NYA_Arena* arena, u32* size);
+__attr_maybe_unused static void _nya_arena_align_and_pad_size(NYA_Arena* arena, u32* size);
 
 /*
  * ─────────────────────────────────────────
