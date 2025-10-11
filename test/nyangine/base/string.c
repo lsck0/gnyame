@@ -1,4 +1,4 @@
-#include "nyangine/base.h"
+#include "nyangine/base/ints.h"
 
 s32 main(void) {
   return 0;

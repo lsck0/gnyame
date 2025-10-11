@@ -16,6 +16,7 @@ typedef struct {
 } NYA_String;
 nya_derive_array(NYA_String);
 
+// clang-format off
 extern bool            nya_string_contains(const NYA_String* str, const char* substr) __attr_overloaded;
 extern bool            nya_string_contains(const NYA_String* str, const NYA_String* substr) __attr_overloaded;
 extern bool            nya_string_ends_with(const NYA_String* str, const char* suffix);
@@ -56,3 +57,4 @@ extern void            nya_string_strip_suffix(NYA_String* str, const char* suff
 extern void            nya_string_to_lower(NYA_String* str);
 extern void            nya_string_to_upper(NYA_String* str);
 extern void            nya_string_trim_whitespace(NYA_String* str);
+// clang-format on

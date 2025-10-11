@@ -1,7 +1,9 @@
+#include "nyangine/base/logging.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "nyangine/base.h"
+#include "nyangine/base/misc.h"
 
 /*
  * ─────────────────────────────────────────

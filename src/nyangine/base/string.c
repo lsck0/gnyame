@@ -69,13 +69,15 @@ NYA_String nya_string_from(struct NYA_Arena* arena, const char* cstr) __attr_ove
   nya_todo();
 }
 
-NYA_String nya_string_join(struct NYA_Arena* arena, const NYA_StringArray* arr, const char* separator) __attr_overloaded {
+NYA_String
+nya_string_join(struct NYA_Arena* arena, const NYA_StringArray* arr, const char* separator) __attr_overloaded {
   nya_unused(arena, arr, separator);
 
   nya_todo();
 }
 
-NYA_String nya_string_join(struct NYA_Arena* arena, const NYA_StringArray* arr, const NYA_String* separator) __attr_overloaded {
+NYA_String
+nya_string_join(struct NYA_Arena* arena, const NYA_StringArray* arr, const NYA_String* separator) __attr_overloaded {
   nya_unused(arena, arr, separator);
 
   nya_todo();
@@ -111,13 +113,15 @@ NYA_String nya_string_substring_incld(struct NYA_Arena* arena, const NYA_String*
   nya_todo();
 }
 
-NYA_StringArray nya_string_split(struct NYA_Arena* arena, const NYA_String* str, const char* separator) __attr_overloaded {
+NYA_StringArray
+nya_string_split(struct NYA_Arena* arena, const NYA_String* str, const char* separator) __attr_overloaded {
   nya_unused(arena, str, separator);
 
   nya_todo();
 }
 
-NYA_StringArray nya_string_split(struct NYA_Arena* arena, const NYA_String* str, const NYA_String* separator) __attr_overloaded {
+NYA_StringArray
+nya_string_split(struct NYA_Arena* arena, const NYA_String* str, const NYA_String* separator) __attr_overloaded {
   nya_unused(arena, str, separator);
 
   nya_todo();

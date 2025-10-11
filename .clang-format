@@ -32,7 +32,7 @@ AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
 BinPackArguments: false
 BreakAfterAttributes: Always
-ColumnLimit: 150
+ColumnLimit: 120
 IncludeBlocks: Regroup
 IncludeCategories:
   - Regex: "^<.*>$"

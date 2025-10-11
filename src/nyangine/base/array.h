@@ -7,15 +7,17 @@
 
 #define _NYA_ARRAY_DEFAULT_SIZE 16
 
-#define _nya_array_access_guard(index, length)                                                                                                       \
-  if (nya_unlikely(0 > (index) || (index) >= (length))) nya_panic("Array index " FMTu32 " (length " FMTu32 ") out of bounds.", index, length);
+#define _nya_array_access_guard(index, length)                                                                         \
+  if (nya_unlikely(0 > (index) || (index) >= (length))) {                                                              \
+    nya_panic("Array index " FMTu32 " (length " FMTu32 ") out of bounds.", index, length);                             \
+  }
 
-#define nya_derive_array(type)                                                                                                                       \
-  typedef struct {                                                                                                                                   \
-    u32        length;                                                                                                                               \
-    u32        capacity;                                                                                                                             \
-    type*      items;                                                                                                                                \
-    NYA_Arena* arena;                                                                                                                                \
+#define nya_derive_array(type)                                                                                         \
+  typedef struct {                                                                                                     \
+    u32        length;                                                                                                 \
+    u32        capacity;                                                                                               \
+    type*      items;                                                                                                  \
+    NYA_Arena* arena;                                                                                                  \
   } type##Array
 
 nya_derive_array(u8);
@@ -47,18 +49,18 @@ nya_derive_array(f64_3x3);
 nya_derive_array(f64_4x4);
 #endif // defined(__has_feature) && __has_attribute(ext_vector_type) && __has_attribute(matrix_type)
 
-#define nya_array_new(arena_ptr, item_type)                                                                                                          \
-  {                                                                                                                                                  \
-      .items    = nya_arena_alloc(arena_ptr, ARRAY_DEFAULT_SIZE * sizeof(item_type)),                                                                \
-      .length   = 0,                                                                                                                                 \
-      .capacity = ARRAY_DEFAULT_SIZE,                                                                                                                \
-      .arena    = (arena_ptr),                                                                                                                       \
+#define nya_array_new(arena_ptr, item_type)                                                                            \
+  {                                                                                                                    \
+      .items    = nya_arena_alloc(arena_ptr, ARRAY_DEFAULT_SIZE * sizeof(item_type)),                                  \
+      .length   = 0,                                                                                                   \
+      .capacity = ARRAY_DEFAULT_SIZE,                                                                                  \
+      .arena    = (arena_ptr),                                                                                         \
   }
 
-#define nya_array_new_with_capacity(arena_ptr, item_type, capacity)                                                                                  \
-  {                                                                                                                                                  \
-      .items    = nya_arena_alloc(arena_ptr, (capacity) * sizeof(item_type)),                                                                        \
-      .length   = 0,                                                                                                                                 \
-      .capacity = (capacity),                                                                                                                        \
-      .arena    = (arena_ptr),                                                                                                                       \
+#define nya_array_new_with_capacity(arena_ptr, item_type, capacity)                                                    \
+  {                                                                                                                    \
+      .items    = nya_arena_alloc(arena_ptr, (capacity) * sizeof(item_type)),                                          \
+      .length   = 0,                                                                                                   \
+      .capacity = (capacity),                                                                                          \
+      .arena    = (arena_ptr),                                                                                         \
   }

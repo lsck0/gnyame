@@ -129,13 +129,17 @@ void* _nya_arena_debug_alloc(NYA_Arena* arena, u64 size, const char* function, c
   nya_todo();
 }
 
-void* _nya_arena_debug_realloc(NYA_Arena* arena, const void* ptr, u64 old_size, u64 new_size, const char* function, const char* file, u32 line) {
+void* _nya_arena_debug_realloc(
+    NYA_Arena* arena, const void* ptr, u64 old_size, u64 new_size, const char* function, const char* file, u32 line
+) {
   nya_unused(arena, ptr, old_size, new_size, function, file, line);
 
   nya_todo();
 }
 
-void _nya_arena_debug_free(NYA_Arena* arena, const void* ptr, u64 size, const char* function, const char* file, u32 line) {
+void _nya_arena_debug_free(
+    NYA_Arena* arena, const void* ptr, u64 size, const char* function, const char* file, u32 line
+) {
   nya_unused(arena, ptr, size, function, file, line);
 
   nya_todo();
@@ -159,7 +163,9 @@ void* _nya_arena_debug_copy(NYA_Arena* dst, void* ptr, u64 size, const char* fun
   nya_todo();
 }
 
-void* _nya_arena_debug_move(NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line) {
+void* _nya_arena_debug_move(
+    NYA_Arena* src, NYA_Arena* dst, void* ptr, u64 size, const char* function, const char* file, u32 line
+) {
   nya_unused(src, dst, ptr, size, function, file, line);
 
   nya_todo();

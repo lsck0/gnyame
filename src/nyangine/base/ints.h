@@ -31,6 +31,7 @@ typedef double   f64;
 #define S64_MIN (-9223372036854775808LL)
 #define S64_MAX 9223372036854775807LL
 
+// use like: nya_debug("number: "FMTu64"\n", number)
 #define FMTu8  "%" PRIu8
 #define FMTu16 "%" PRIu16
 #define FMTu32 "%" PRIu32
