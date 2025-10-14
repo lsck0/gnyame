@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-
 #include "nyangine/base/arena.h"
 #include "nyangine/base/ints.h"
 #include "nyangine/base/logging.h"
@@ -57,19 +55,15 @@ nya_derive_array(f64_4x4);
 #define nya_range_for(idx, start, end)         nya_range_for_t (s32, idx, start, end)
 
 #define nya_array_new(arena_ptr, item_type)                                                                            \
-  {                                                                                                                    \
-      .items    = nya_arena_alloc(arena_ptr, _NYA_ARRAY_DEFAULT_SIZE * sizeof(item_type)),                             \
-      .length   = 0,                                                                                                   \
-      .capacity = _NYA_ARRAY_DEFAULT_SIZE,                                                                             \
-      .arena    = (arena_ptr),                                                                                         \
+  (item_type##Array) {                                                                                                 \
+    .items = nya_arena_alloc(arena_ptr, _NYA_ARRAY_DEFAULT_SIZE * sizeof(item_type)), .length = 0,                     \
+    .capacity = _NYA_ARRAY_DEFAULT_SIZE, .arena = (arena_ptr),                                                         \
   }
 
 #define nya_array_new_with_capacity(arena_ptr, item_type, capacity)                                                    \
-  {                                                                                                                    \
-      .items    = nya_arena_alloc(arena_ptr, (capacity) * sizeof(item_type)),                                          \
-      .length   = 0,                                                                                                   \
-      .capacity = (capacity),                                                                                          \
-      .arena    = (arena_ptr),                                                                                         \
+  (item_type##Array) {                                                                                                 \
+    .items = nya_arena_alloc(arena_ptr, (capacity) * sizeof(item_type)), .length = 0, .capacity = (capacity),          \
+    .arena = (arena_ptr),                                                                                              \
   }
 
 #define nya_array_from_carray(arena_ptr, item_type, carray, carray_length)                                             \
@@ -149,6 +143,18 @@ nya_derive_array(f64_4x4);
     (arr_ptr)->length--;                                                                                               \
     item;                                                                                                              \
   })
+
+#define nya_array_remove_item(arr_ptr, item)                                                                           \
+  do {                                                                                                                 \
+    nya_assert_type_match(item, (arr_ptr)->items[0]);                                                                  \
+    typeof((arr_ptr)->items[0]) item_var = item;                                                                       \
+    for (u32 i = 0; i < (arr_ptr)->length; i++) {                                                                      \
+      if (nya_memcmp(&(arr_ptr)->items[i], &item_var, sizeof(item_var)) == 0) {                                        \
+        nya_array_remove(arr_ptr, i);                                                                                  \
+        break;                                                                                                         \
+      }                                                                                                                \
+    }                                                                                                                  \
+  } while (0)
 
 #define nya_array_push_back(arr_ptr, item)  nya_array_add(arr_ptr, item)
 #define nya_array_push_front(arr_ptr, item) nya_array_insert(arr_ptr, item, 0)
@@ -298,23 +304,10 @@ nya_derive_array(f64_4x4);
   for (u32 index_name = (arr_ptr)->length - 1; (index_name) >= 0; (index_name)--)
 
 #define nya_array_foreach(arr_ptr, item_name)                                                                          \
-  for (typeof(*(arr_ptr)->items)* item_name##_ptr = (arr_ptr)->items;                                                  \
-       item_name##_ptr < (arr_ptr)->items + (arr_ptr)->length;                                                         \
-       item_name##_ptr++)                                                                                              \
-    for (typeof (*(arr_ptr)->items)(item_name) = *item_name##_ptr, *_break = &(item_name); _break; _break = 0)
+  for (typeof(*(arr_ptr)->items)*(item_name) = (arr_ptr)->items; (item_name) < (arr_ptr)->items + (arr_ptr)->length;   \
+       (item_name)++)
 
 #define nya_array_foreach_reverse(arr_ptr, item_name)                                                                  \
-  for (typeof(*(arr_ptr)->items)* item_name##_ptr = (arr_ptr)->items + (arr_ptr)->length - 1;                          \
-       item_name##_ptr >= (arr_ptr)->items;                                                                            \
-       item_name##_ptr--)                                                                                              \
-    for (typeof (*(arr_ptr)->items)(item_name) = *item_name##_ptr, *_break = &(item_name); _break; _break = 0)
-
-#define nya_array_print(arr_ptr, item_fmt)                                                                             \
-  do {                                                                                                                 \
-    printf("[");                                                                                                       \
-    nya_array_foreach (arr_ptr, item) {                                                                                \
-      printf(item_fmt, item);                                                                                          \
-      if (item != (arr_ptr)->items[(arr_ptr)->length - 1]) printf(", ");                                               \
-    }                                                                                                                  \
-    printf("]\n");                                                                                                     \
-  } while (0)
+  for (typeof(*(arr_ptr)->items)*(item_name) = (arr_ptr)->items + (arr_ptr)->length - 1;                               \
+       (item_name) >= (arr_ptr)->items;                                                                                \
+       (item_name)--)

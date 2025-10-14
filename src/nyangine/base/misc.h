@@ -5,6 +5,8 @@
 #define nya_likely(expr)   __builtin_expect(!!(expr), 1)
 #define nya_unlikely(expr) __builtin_expect(!!(expr), 0)
 
+#define nya_is_zeroed(val) (nya_memcmp(&(val), &(typeof(val)){0}, sizeof(val)) == 0)
+
 #define nya_assert_type_match(a, b)                                                                                    \
   static_assert(__builtin_types_compatible_p(typeof(a), typeof(b)), "Incompatible types.")
 

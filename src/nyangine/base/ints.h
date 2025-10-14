@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL3/SDL_stdinc.h>
+#include "SDL3/SDL_stdinc.h"
 
 typedef uint8_t  u8;
 typedef uint16_t u16;

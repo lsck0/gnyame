@@ -1,5 +1,7 @@
 #include "nyangine/base/string.h"
 
+#include <stdio.h>
+
 #include "nyangine/base/array.h"
 #include "nyangine/base/assert.h"
 #include "nyangine/base/memory.h"
@@ -43,6 +45,17 @@ bool nya_string_ends_with(const NYA_String* str, const char* suffix) {
   if (str_length < suffix_length) return false;
 
   return nya_memcmp(str->items + str_length - suffix_length, suffix, suffix_length) == 0;
+}
+
+__attr_overloaded bool nya_string_equals(const char* str1, const char* str2) {
+  nya_assert(str1);
+  nya_assert(str2);
+
+  u32 str1_length = SDL_strlen(str1);
+  u32 str2_length = SDL_strlen(str2);
+  if (str1_length != str2_length) return false;
+
+  return nya_memcmp(str1, str2, str1_length) == 0;
 }
 
 __attr_overloaded bool nya_string_equals(const NYA_String* str1, const char* str2) {
@@ -160,13 +173,13 @@ nya_string_join(NYA_Arena* arena, const NYA_StringArray* arr, const NYA_String* 
 NYA_String nya_string_new(NYA_Arena* arena) {
   nya_assert(arena);
 
-  return (NYA_String)nya_array_new(arena, u8);
+  return nya_array_new(arena, u8);
 }
 
 NYA_String nya_string_new_with_capacity(NYA_Arena* arena, u32 capacity) {
   nya_assert(arena);
 
-  return (NYA_String)nya_array_new_with_capacity(arena, u8, capacity);
+  return nya_array_new_with_capacity(arena, u8, capacity);
 }
 
 NYA_String nya_string_sprintf(NYA_Arena* arena, const char* fmt, ...) __attr_fmt_printf(2, 3) {
@@ -271,7 +284,7 @@ NYA_StringArray nya_string_split_words(NYA_Arena* arena, const NYA_String* str) 
   NYA_String      buffer = nya_string_new(arena);
 
   nya_array_foreach (str, ch) {
-    if (SDL_isspace(ch)) {
+    if (SDL_isspace(*ch)) {
       if (!nya_string_is_empty(&buffer)) {
         nya_array_push(&arr, nya_string_clone(arena, &buffer));
         nya_string_clear(&buffer);
@@ -279,7 +292,7 @@ NYA_StringArray nya_string_split_words(NYA_Arena* arena, const NYA_String* str) 
       continue;
     }
 
-    nya_array_push(&buffer, ch);
+    nya_array_push(&buffer, *ch);
   }
 
   if (!nya_string_is_empty(&buffer)) nya_array_push(&arr, buffer);

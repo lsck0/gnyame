@@ -10,6 +10,7 @@
 #include "nyangine/base/math.h"
 #include "nyangine/base/memory.h"
 #include "nyangine/base/misc.h"
+#include "nyangine/base/perf.h"
 #include "nyangine/base/string.h"
 #include "nyangine/base/version.h"
 #include "nyangine/core/app.h"

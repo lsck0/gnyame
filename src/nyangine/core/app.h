@@ -1,12 +1,13 @@
 #pragma once
 
+#include "SDL3/SDL_gpu.h"
+#include "SDL3/SDL_video.h"
+
 #include "nyangine/base/arena.h"
 #include "nyangine/base/array.h"
 #include "nyangine/base/attributes.h"
 #include "nyangine/base/string.h"
 #include "nyangine/core/event.h"
-
-#include "SDL3/SDL.h"
 
 typedef struct NYA_Layer  NYA_Layer;
 typedef struct NYA_Window NYA_Window;

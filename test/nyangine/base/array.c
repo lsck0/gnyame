@@ -14,7 +14,7 @@ s32 main(void) {
 
   // === foreach ===
   s32 sum = 0;
-  nya_array_foreach (&xs, x) sum += x;
+  nya_array_foreach (&xs, x) sum += *x;
   nya_assert(sum == 276);
 
   // === insert and remove ===
@@ -103,12 +103,6 @@ s32 main(void) {
   nya_array_free(&xs);
   nya_array_free(&ys);
   nya_array_free(&zs);
-
-  // === print (smoke test) ===
-  s32Array debug_arr = nya_array_new(arena2, s32);
-  nya_range_for (i, 0, 5) nya_array_add(&debug_arr, i * 2);
-  nya_array_print(&debug_arr, FMTs32);
-  nya_array_free(&debug_arr);
 
   // === cleanup ===
   nya_arena_garbage_collect(arena);

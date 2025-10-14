@@ -8,18 +8,14 @@
 #define NYA_FMT_STRING          "%.*s"
 #define NYA_FMT_STRING_ARG(str) (s32)(str).length, (str).items
 
-typedef struct {
-  u32        length;
-  u32        capacity;
-  u8*        items;
-  NYA_Arena* arena;
-} NYA_String;
+typedef u8Array NYA_String;
 nya_derive_array(NYA_String);
 
 // clang-format off
 extern bool            nya_string_contains(const NYA_String* str, const char* substr) __attr_overloaded;
 extern bool            nya_string_contains(const NYA_String* str, const NYA_String* substr) __attr_overloaded;
 extern bool            nya_string_ends_with(const NYA_String* str, const char* suffix);
+extern bool            nya_string_equals(const char* str1, const char* str2) __attr_overloaded;
 extern bool            nya_string_equals(const NYA_String* str1, const char* str2) __attr_overloaded;
 extern bool            nya_string_equals(const NYA_String* str1, const NYA_String* str2) __attr_overloaded;
 extern bool            nya_string_is_empty(const NYA_String* str);
