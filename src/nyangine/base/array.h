@@ -11,13 +11,13 @@
 
 #define _nya_array_access_guard(index, length)                                                                         \
   if (nya_unlikely(0 > (index) || (index) >= (length))) {                                                              \
-    nya_panic("Array index " FMTu32 " (length " FMTu32 ") out of bounds.", index, length);                             \
+    nya_panic("Array index " FMTu64 " (length " FMTu64 ") out of bounds.", index, length);                             \
   }
 
 #define nya_derive_array(type)                                                                                         \
   typedef struct {                                                                                                     \
-    u32        length;                                                                                                 \
-    u32        capacity;                                                                                               \
+    u64        length;                                                                                                 \
+    u64        capacity;                                                                                               \
     type*      items;                                                                                                  \
     NYA_Arena* arena;                                                                                                  \
   } type##Array
@@ -148,7 +148,7 @@ nya_derive_array(f64_4x4);
   do {                                                                                                                 \
     nya_assert_type_match(item, (arr_ptr)->items[0]);                                                                  \
     typeof((arr_ptr)->items[0]) item_var = item;                                                                       \
-    for (u32 i = 0; i < (arr_ptr)->length; i++) {                                                                      \
+    for (u64 i = 0; i < (arr_ptr)->length; i++) {                                                                      \
       if (nya_memcmp(&(arr_ptr)->items[i], &item_var, sizeof(item_var)) == 0) {                                        \
         nya_array_remove(arr_ptr, i);                                                                                  \
         break;                                                                                                         \
@@ -280,7 +280,7 @@ nya_derive_array(f64_4x4);
 
 #define nya_array_reverse(arr_ptr)                                                                                     \
   do {                                                                                                                 \
-    for (u32 i = 0; i < (arr_ptr)->length / 2; i++) nya_array_swap(arr_ptr, i, (arr_ptr)->length - i - 1);             \
+    for (u64 i = 0; i < (arr_ptr)->length / 2; i++) nya_array_swap(arr_ptr, i, (arr_ptr)->length - i - 1);             \
   } while (0)
 
 #define nya_array_equals(arr1_ptr, arr2_ptr)                                                                           \
@@ -288,7 +288,7 @@ nya_derive_array(f64_4x4);
     nya_assert_type_match((arr1_ptr)->items[0], (arr2_ptr)->items[0]);                                                 \
     bool equal = (arr1_ptr)->length == (arr2_ptr)->length;                                                             \
     if (equal) {                                                                                                       \
-      for (u32 i = 0; i < (arr1_ptr)->length; i++) {                                                                   \
+      for (u64 i = 0; i < (arr1_ptr)->length; i++) {                                                                   \
         if (nya_memcmp(&(arr1_ptr)->items[i], &(arr2_ptr)->items[i], sizeof((arr1_ptr)->items[i])) != 0) {             \
           equal = false;                                                                                               \
           break;                                                                                                       \
@@ -301,7 +301,7 @@ nya_derive_array(f64_4x4);
 #define nya_array_for(arr_ptr, index_name) for (u64 index_name = 0; (index_name) < (arr_ptr)->length; (index_name)++)
 
 #define nya_array_for_reverse(arr_ptr, index_name)                                                                     \
-  for (u32 index_name = (arr_ptr)->length - 1; (index_name) >= 0; (index_name)--)
+  for (u64 index_name = (arr_ptr)->length - 1; (index_name) >= 0; (index_name)--)
 
 #define nya_array_foreach(arr_ptr, item_name)                                                                          \
   for (typeof(*(arr_ptr)->items)*(item_name) = (arr_ptr)->items; (item_name) < (arr_ptr)->items + (arr_ptr)->length;   \

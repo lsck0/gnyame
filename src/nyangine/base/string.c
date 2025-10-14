@@ -13,7 +13,7 @@
  * ─────────────────────────────────────────
  * */
 
-static char* _nya_strstrn(char* haystack, char* needle, u32 haystack_len, u32 needle_len);
+static char* _nya_strstrn(char* haystack, char* needle, u64 haystack_len, u64 needle_len);
 
 /*
  * ─────────────────────────────────────────
@@ -39,8 +39,8 @@ bool nya_string_ends_with(const NYA_String* str, const char* suffix) {
   nya_assert(str);
   nya_assert(suffix);
 
-  u32 str_length    = str->length;
-  u32 suffix_length = SDL_strlen(suffix);
+  u64 str_length    = str->length;
+  u64 suffix_length = SDL_strlen(suffix);
 
   if (str_length < suffix_length) return false;
 
@@ -51,8 +51,8 @@ __attr_overloaded bool nya_string_equals(const char* str1, const char* str2) {
   nya_assert(str1);
   nya_assert(str2);
 
-  u32 str1_length = SDL_strlen(str1);
-  u32 str2_length = SDL_strlen(str2);
+  u64 str1_length = SDL_strlen(str1);
+  u64 str2_length = SDL_strlen(str2);
   if (str1_length != str2_length) return false;
 
   return nya_memcmp(str1, str2, str1_length) == 0;
@@ -62,8 +62,8 @@ __attr_overloaded bool nya_string_equals(const NYA_String* str1, const char* str
   nya_assert(str1);
   nya_assert(str2);
 
-  u32 str1_length = str1->length;
-  u32 str2_length = SDL_strlen(str2);
+  u64 str1_length = str1->length;
+  u64 str2_length = SDL_strlen(str2);
   if (str1_length != str2_length) return false;
 
   return nya_memcmp(str1->items, str2, str1_length) == 0;
@@ -88,8 +88,8 @@ bool nya_string_starts_with(const NYA_String* str, const char* prefix) {
   nya_assert(str);
   nya_assert(prefix);
 
-  u32 str_length    = str->length;
-  u32 prefix_length = SDL_strlen(prefix);
+  u64 str_length    = str->length;
+  u64 prefix_length = SDL_strlen(prefix);
 
   if (str_length < prefix_length) return false;
 
@@ -124,7 +124,7 @@ __attr_overloaded NYA_String nya_string_from(NYA_Arena* arena, const char* cstr)
   nya_assert(arena);
   nya_assert(cstr);
 
-  u32        length = SDL_strlen(cstr);
+  u64        length = SDL_strlen(cstr);
   NYA_String result = nya_string_new_with_capacity(arena, length);
   nya_memcpy(result.items, cstr, length);
   result.length = length;
@@ -137,10 +137,10 @@ __attr_overloaded NYA_String nya_string_join(NYA_Arena* arena, const NYA_StringA
   nya_assert(arr);
   nya_assert(separator);
 
-  u32 separator_length = SDL_strlen(separator);
-  u32 total_length     = 0;
+  u64 separator_length = SDL_strlen(separator);
+  u64 total_length     = 0;
 
-  for (u32 i = 0; i < arr->length; i++) total_length += arr->items[i].length;
+  for (u64 i = 0; i < arr->length; i++) total_length += arr->items[i].length;
   total_length += (arr->length - 1) * separator_length;
 
   NYA_String result = nya_string_new_with_capacity(arena, total_length);
@@ -176,7 +176,7 @@ NYA_String nya_string_new(NYA_Arena* arena) {
   return nya_array_new(arena, u8);
 }
 
-NYA_String nya_string_new_with_capacity(NYA_Arena* arena, u32 capacity) {
+NYA_String nya_string_new_with_capacity(NYA_Arena* arena, u64 capacity) {
   nya_assert(arena);
 
   return nya_array_new_with_capacity(arena, u8, capacity);
@@ -189,7 +189,7 @@ NYA_String nya_string_sprintf(NYA_Arena* arena, const char* fmt, ...) __attr_fmt
   va_list args;
   va_start(args, fmt);
 
-  u32 length = SDL_vsnprintf(nullptr, 0, fmt, args);
+  u64 length = SDL_vsnprintf(nullptr, 0, fmt, args);
   va_end(args);
 
   NYA_String result = nya_string_new_with_capacity(arena, length);
@@ -203,13 +203,13 @@ NYA_String nya_string_sprintf(NYA_Arena* arena, const char* fmt, ...) __attr_fmt
   return result;
 }
 
-NYA_String nya_string_substring_excld(NYA_Arena* arena, const NYA_String* str, u32 start, u32 end) {
+NYA_String nya_string_substring_excld(NYA_Arena* arena, const NYA_String* str, u64 start, u64 end) {
   nya_assert(arena);
   nya_assert(str);
   nya_assert(start <= end);
   nya_assert(end <= str->length);
 
-  u32        length = end - start;
+  u64        length = end - start;
   NYA_String substr = nya_string_new_with_capacity(arena, length);
   nya_memmove(substr.items, str->items + start, length);
   substr.length = length;
@@ -217,7 +217,7 @@ NYA_String nya_string_substring_excld(NYA_Arena* arena, const NYA_String* str, u
   return substr;
 }
 
-NYA_String nya_string_substring_incld(NYA_Arena* arena, const NYA_String* str, u32 start, u32 end) {
+NYA_String nya_string_substring_incld(NYA_Arena* arena, const NYA_String* str, u64 start, u64 end) {
   nya_assert(arena);
   nya_assert(str);
   nya_assert(start <= end);
@@ -300,16 +300,16 @@ NYA_StringArray nya_string_split_words(NYA_Arena* arena, const NYA_String* str) 
   return arr;
 }
 
-__attr_overloaded u32 nya_string_count(const NYA_String* str, const char* substr) {
+__attr_overloaded u64 nya_string_count(const NYA_String* str, const char* substr) {
   nya_assert(str);
   nya_assert(substr);
 
-  u32 count  = 0;
-  u32 length = strlen(substr);
+  u64 count  = 0;
+  u64 length = strlen(substr);
 
   if (nya_unlikely(length == 0 || length > str->length)) return 0;
 
-  for (u32 i = 0; i < str->length; i++) {
+  for (u64 i = 0; i < str->length; i++) {
     if (i + length > str->length) break;
     if (nya_memcmp(str->items + i, substr, length) == 0) {
       count++;
@@ -320,7 +320,7 @@ __attr_overloaded u32 nya_string_count(const NYA_String* str, const char* substr
   return count;
 }
 
-__attr_overloaded u32 nya_string_count(const NYA_String* str, const NYA_String* substr) {
+__attr_overloaded u64 nya_string_count(const NYA_String* str, const NYA_String* substr) {
   nya_assert(str);
   nya_assert(substr);
 
@@ -341,8 +341,8 @@ __attr_overloaded void nya_string_extend(NYA_String* str, const char* extension)
   nya_assert(str);
   nya_assert(extension);
 
-  u32 extension_length = SDL_strlen(extension);
-  u32 new_length       = str->length + extension_length;
+  u64 extension_length = SDL_strlen(extension);
+  u64 new_length       = str->length + extension_length;
 
   nya_array_reserve(str, new_length);
   nya_memmove(str->items + str->length, extension, extension_length);
@@ -353,7 +353,7 @@ __attr_overloaded void nya_string_extend(NYA_String* str, const NYA_String* exte
   nya_assert(str);
   nya_assert(extension);
 
-  u32 new_length = str->length + extension->length;
+  u64 new_length = str->length + extension->length;
 
   nya_array_reserve(str, new_length);
   nya_memmove(str->items + str->length, extension->items, extension->length);
@@ -374,9 +374,9 @@ __attr_overloaded void nya_string_remove(NYA_String* str, const char* substr) {
   nya_assert(str);
   nya_assert(substr);
 
-  u32 length = SDL_strlen(substr);
+  u64 length = SDL_strlen(substr);
 
-  for (u32 i = 0; i < str->length; i++) {
+  for (u64 i = 0; i < str->length; i++) {
     if (nya_memcmp(str->items + i, substr, length) == 0) {
       nya_memmove(str->items + i, str->items + i + length, str->length - i - length);
       str->length -= length;
@@ -403,10 +403,10 @@ __attr_overloaded void nya_string_replace(NYA_String* str, const char* old, cons
   nya_assert(old);
   nya_assert(new);
 
-  u32 old_length = strlen(old);
-  u32 new_length = strlen(new);
+  u64 old_length = strlen(old);
+  u64 new_length = strlen(new);
 
-  for (u32 i = 0; i < str->length; i++) {
+  for (u64 i = 0; i < str->length; i++) {
     if (nya_memcmp(str->items + i, old, old_length) == 0) {
       if (old_length != new_length) nya_array_reserve(str, str->length + new_length - old_length);
 
@@ -423,7 +423,7 @@ __attr_overloaded void nya_string_replace(NYA_String* str, const NYA_String* old
   nya_assert(old);
   nya_assert(new);
 
-  for (u32 i = 0; i < str->length; i++) {
+  for (u64 i = 0; i < str->length; i++) {
     if (nya_memcmp(str->items + i, old->items, old->length) == 0) {
       if (old->length != new->length) nya_array_reserve(str, str->length + new->length - old->length);
 
@@ -435,7 +435,7 @@ __attr_overloaded void nya_string_replace(NYA_String* str, const NYA_String* old
   }
 }
 
-void nya_string_reserve(NYA_String* str, u32 capacity) {
+void nya_string_reserve(NYA_String* str, u64 capacity) {
   nya_assert(str);
 
   nya_array_reserve(str, capacity);
@@ -464,7 +464,7 @@ void nya_string_strip_prefix(NYA_String* str, const char* prefix) {
   nya_assert(str);
   nya_assert(prefix);
 
-  u32 prefix_length = SDL_strlen(prefix);
+  u64 prefix_length = SDL_strlen(prefix);
 
   if (nya_memcmp(str->items, prefix, prefix_length) == 0) {
     nya_memmove(str->items, str->items + prefix_length, str->length - prefix_length);
@@ -476,7 +476,7 @@ void nya_string_strip_suffix(NYA_String* str, const char* suffix) {
   nya_assert(str);
   nya_assert(suffix);
 
-  u32 suffix_length = SDL_strlen(suffix);
+  u64 suffix_length = SDL_strlen(suffix);
 
   if (nya_memcmp(str->items + str->length - suffix_length, suffix, suffix_length) == 0) {
     str->length -= suffix_length;
@@ -486,20 +486,20 @@ void nya_string_strip_suffix(NYA_String* str, const char* suffix) {
 void nya_string_to_lower(NYA_String* str) {
   nya_assert(str);
 
-  for (u32 i = 0; i < str->length; i++) str->items[i] = SDL_tolower(str->items[i]);
+  for (u64 i = 0; i < str->length; i++) str->items[i] = SDL_tolower(str->items[i]);
 }
 
 void nya_string_to_upper(NYA_String* str) {
   nya_assert(str);
 
-  for (u32 i = 0; i < str->length; i++) str->items[i] = SDL_toupper(str->items[i]);
+  for (u64 i = 0; i < str->length; i++) str->items[i] = SDL_toupper(str->items[i]);
 }
 
 void nya_string_trim_whitespace(NYA_String* str) {
   nya_assert(str);
 
-  u32 start = 0;
-  u32 end   = str->length;
+  u64 start = 0;
+  u64 end   = str->length;
 
   while (start < str->length && SDL_isspace(str->items[start])) start++;
   while (end > start && SDL_isspace(str->items[end - 1])) end--;
@@ -514,10 +514,10 @@ void nya_string_trim_whitespace(NYA_String* str) {
  * ─────────────────────────────────────────
  * */
 
-static char* _nya_strstrn(char* haystack, char* needle, u32 haystack_len, u32 needle_len) {
+static char* _nya_strstrn(char* haystack, char* needle, u64 haystack_len, u64 needle_len) {
   if (needle_len == 0 || needle_len > haystack_len) return nullptr;
 
-  for (u32 i = 0; i <= haystack_len - needle_len; i++) {
+  for (u64 i = 0; i <= haystack_len - needle_len; i++) {
     if (nya_memcmp(haystack + i, needle, needle_len) == 0) return haystack + i;
   }
 
