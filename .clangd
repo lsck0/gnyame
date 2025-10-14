@@ -32,10 +32,17 @@ Diagnostics:
       ]
     Remove:
       [
+        bugprone-assignment-in-if-condition,
+        bugprone-easily-swappable-parameters,
+        bugprone-inc-dec-in-conditions,
+        bugprone-reserved-identifier,
         cert-dcl37-c,
         cert-dcl51-cpp,
-        bugprone-reserved-identifier,
         readability-braces-around-statements,
+        readability-function-cognitive-complexity,
         readability-identifier-length,
+        readability-implicit-bool-conversion,
         readability-magic-numbers,
+        readability-math-missing-parentheses,
+        readability-redundant-control-flow,
       ]

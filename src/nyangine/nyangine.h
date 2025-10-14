@@ -8,6 +8,7 @@
 #include "nyangine/base/ints.h"
 #include "nyangine/base/logging.h"
 #include "nyangine/base/math.h"
+#include "nyangine/base/memory.h"
 #include "nyangine/base/misc.h"
 #include "nyangine/base/string.h"
 #include "nyangine/base/version.h"

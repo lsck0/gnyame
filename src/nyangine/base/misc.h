@@ -38,11 +38,5 @@
 #define nya_bit_count_leading_zeros(val)  __builtin_clz(val)
 #define nya_bit_count_trailing_zeros(val) __builtin_ctz(val)
 
-#define nya_byte_to_kibyte(val) ((val) << 10)
-#define nya_byte_to_mebyte(val) ((val) << 20)
-#define nya_byte_to_gibyte(val) ((val) << 30)
-#define nya_byte_to_tebyte(val) ((val) << 40)
-#define nya_byte_to_kbyte(val)  ((val) * 1000)
-#define nya_byte_to_mbyte(val)  ((val) * 1000000)
-#define nya_byte_to_gbyte(val)  ((val) * 1000000000)
-#define nya_byte_to_tbyte(val)  ((val) * 1000000000000LL)
+#define nya_min(a, b) ({ (a) < (b) ? (a) : (b); })
+#define nya_max(a, b) ({ (a) > (b) ? (a) : (b); })
