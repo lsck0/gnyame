@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nyangine/base/logging.h"
+#include "nyangine/base/misc.h"
 
 // clang-format off
 #define nya_assert(...)                        _NYA_PICK_ASSERT(__VA_ARGS__, _NYA_ASSERT3, _NYA_ASSERT2, _NYA_ASSERT1)(__VA_ARGS__)
