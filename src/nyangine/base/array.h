@@ -11,7 +11,7 @@
 
 #define _nya_array_access_guard(index, length)                                                                         \
   if (nya_unlikely(0 > (index) || (index) >= (length))) {                                                              \
-    nya_panic("Array index " FMTu64 " (length " FMTu64 ") out of bounds.", index, length);                             \
+    nya_panic("Array index " FMTu64 " (length " FMTu64 ") out of bounds.", (u64)index, length);                        \
   }
 
 #define nya_derive_array(type)                                                                                         \
@@ -210,7 +210,7 @@ nya_derive_array(f64_4x4);
 #define nya_array_clear(arr_ptr)                                                                                       \
   do { (arr_ptr)->length = 0; } while (0)
 
-#define nya_array_free(arr_ptr)                                                                                        \
+#define nya_array_destroy(arr_ptr)                                                                                     \
   do {                                                                                                                 \
     nya_arena_free((arr_ptr)->arena, (arr_ptr)->items, sizeof(*(arr_ptr)->items) * (arr_ptr)->capacity);               \
     (arr_ptr)->items    = nullptr;                                                                                     \

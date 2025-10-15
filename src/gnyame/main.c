@@ -1,80 +1,56 @@
-#include "SDL3/SDL.h"
-
 #include "nyangine/nyangine.h"
 
-const char* WINDOW_TITLE  = "Hello World";
-const s32   WINDOW_WIDTH  = 1280;
-const s32   WINDOW_HEIGHT = 720;
+void on_create();
+void on_destroy();
+void on_event(NYA_Window* window, NYA_Event* event);
+void on_update(NYA_Window* window, f32 delta_time);
 
 s32 main(s32 argc, char** argv) {
   nya_unused(argc, argv);
 
-  bool ok;
+  NYA_App app = nya_app_new((NYA_AppConfig){
+      .time_step_ms     = 15,
+      .frame_rate_limit = 120,
+      .vsync_enabled    = false,
+  });
 
-  ok = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-  nya_assert(ok, "SDL_Init() failed: %s", SDL_GetError());
-
-  SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
-  nya_assert(window != nullptr, "SDL_CreateWindow() failed: %s", SDL_GetError());
-
-  SDL_GPUDevice* gpu_device = SDL_CreateGPUDevice(
-      SDL_GPU_SHADERFORMAT_DXIL | SDL_GPU_SHADERFORMAT_METALLIB | SDL_GPU_SHADERFORMAT_SPIRV,
-      NYA_IS_DEBUG,
-      nullptr
-  );
-  nya_assert(gpu_device != nullptr, "SDL_CreateGPUDevice() failed: %s", SDL_GetError());
-
-  ok = SDL_ClaimWindowForGPUDevice(gpu_device, window);
-  nya_assert(ok, "SDL_ClaimWindowForGPUDevice() failed: %s", SDL_GetError());
-
-  ok = SDL_SetGPUSwapchainParameters(gpu_device, window, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, SDL_GPU_PRESENTMODE_MAILBOX);
-  nya_assert(ok, "SDL_SetGPUSwapchainParameters() failed: %s", SDL_GetError());
-
-  bool should_quit = false;
-  while (!should_quit) {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_EVENT_QUIT) should_quit = true;
-      if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(window)) {
-        should_quit = true;
+  nya_window_new(&app, "gnyame", 1280, 720, NYA_WINDOW_RESIZABLE, "main_window");
+  nya_window_layer_push(
+      &app,
+      "main_window",
+      (NYA_Layer){
+          .id         = "main_layer",
+          .enabled    = true,
+          .on_create  = on_create,
+          .on_destroy = on_destroy,
+          .on_event   = on_event,
+          .on_update  = on_update,
+          .on_render  = nullptr,
       }
+  );
 
-      // event handling ...
-    }
-
-    if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) {
-      SDL_Delay(10);
-      continue;
-    }
-
-    SDL_GPUCommandBuffer* command_buffer = SDL_AcquireGPUCommandBuffer(gpu_device);
-
-    SDL_GPUTexture* swapchain_texture;
-    SDL_AcquireGPUSwapchainTexture(command_buffer, window, &swapchain_texture, nullptr, nullptr);
-
-    if (swapchain_texture != nullptr) {
-      SDL_GPUColorTargetInfo target_info = {
-          .texture     = swapchain_texture,
-          .clear_color = (SDL_FColor){0},
-          .load_op     = SDL_GPU_LOADOP_CLEAR,
-          .store_op    = SDL_GPU_STOREOP_STORE,
-      };
-      SDL_GPURenderPass* render_pass = SDL_BeginGPURenderPass(command_buffer, &target_info, 1, nullptr);
-      nya_assert(render_pass != nullptr, "SDL_BeginGPURenderPass() failed");
-
-      // rendering ...
-
-      SDL_EndGPURenderPass(render_pass);
-    }
-
-    SDL_SubmitGPUCommandBuffer(command_buffer);
-  }
-
-  SDL_WaitForGPUIdle(gpu_device);
-  SDL_ReleaseWindowFromGPUDevice(gpu_device, window);
-  SDL_DestroyGPUDevice(gpu_device);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+  nya_app_run(&app);
+  nya_app_destroy(&app);
 
   return 0;
+}
+
+void on_create() {
+  nya_info("gnyame (v%s) started", NYA_VERSION);
+}
+
+void on_update(NYA_Window* window, f32 delta_time) {
+  nya_unused(window);
+  nya_unused(delta_time);
+
+  nya_info("gnyame updating");
+}
+
+void on_event(NYA_Window* window, NYA_Event* event) {
+  nya_unused(window);
+  nya_unused(event);
+}
+
+void on_destroy() {
+  nya_info("gnyame shutting down");
 }

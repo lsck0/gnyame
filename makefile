@@ -10,7 +10,7 @@ FLAGS               = -std=c23 -ggdb -fenable-matrix -pedantic -Wall -Wextra -Wp
 FLAGS_DEBUG         = -O0 -fsanitize=address,undefined -DIS_DEBUG=true
 FLAGS_RELEASE       = -O3
 FLAGS_LINUX         =
-FLAGS_WIN           = -static -pthread --target=x86_64-w64-mingw32 -Wl,-subsystem,windows
+FLAGS_WIN           = -static -pthread --target=x86_64-w64-mingw32
 INCLUDE_PATHS       = -I./src/ -I./vendor/sdl/include/
 LINKER_PATHS_LINUX  = -L./vendor/sdl/build-linux/
 LINKER_PATHS_WIN    = -L./vendor/sdl/build-windows/
@@ -57,7 +57,6 @@ default:
 	@echo "  - make vendor"
 	@echo "  - make run"
 	@echo "  - make test"
-	@echo "  - make analyze"
 	@echo "  - make docs"
 	@echo "  - make stats"
 
@@ -95,13 +94,6 @@ test: vendor_no_rebuild $(DEBUG_OBJS_NO_MAIN)
 		[ $$? -eq 0 ] || exit 1; \
 	done
 	@echo $(TIMER_FORMAT)
-
-.PHONY: analyze
-analyze:
-	@CodeChecker log -b "make debug -kB" -o compile_commands.json
-	@CodeChecker analyze compile_commands.json --output ./reports --analyzer-config clang-tidy:take-config-from-directory=true
-	@rm compile_commands.json
-	@CodeChecker parse --print-steps ./reports
 
 .PHONY: docs
 docs:

@@ -32,9 +32,7 @@ s32 main(void) {
   nya_string_remove(&s3, "world! ");
   nya_assert(nya_string_contains(&s3, "Hello, "));
   NYA_String rem = nya_string_from(arena, " I'm fine.");
-  nya_string_print(&s3);
   nya_string_remove(&s3, &rem);
-  nya_string_print(&s3);
   nya_assert(!nya_string_contains(&s3, "I'm fine."));
 
   // === replace (char*) ===
@@ -53,7 +51,6 @@ s32 main(void) {
   nya_string_reverse(&temp);
   nya_string_strip_prefix(&temp, "Hello");
   nya_string_reverse(&temp);
-  nya_string_print(&temp);
 
   // === contains / starts_with / ends_with ===
   NYA_String s4 = nya_string_from(arena, "era ydwoh");
@@ -167,33 +164,29 @@ s32 main(void) {
   nya_string_strip_suffix(&strip_test, "!!!");
   nya_assert(!nya_string_ends_with(&strip_test, "!!!"));
 
-  // === print (smoke test) ===
-  nya_string_print(&strip_test);
-
   // === cleanup ===
-  nya_string_free(&s1);
-  nya_string_free(&s2);
-  nya_string_free(&s3);
-  nya_string_free(&s5);
-  nya_string_free(&s6);
-  nya_string_free(&s7);
-  nya_string_free(&s8);
-  nya_string_free(&s4);
-  nya_string_free(&s5_clone);
-  nya_string_free(&empty);
-  nya_string_free(&with_cap);
-  nya_string_free(&rep_test);
-  nya_string_free(&rem_test);
-  nya_string_free(&rev);
-  nya_string_free(&strip_test);
+  nya_string_destroy(&s1);
+  nya_string_destroy(&s2);
+  nya_string_destroy(&s3);
+  nya_string_destroy(&s5);
+  nya_string_destroy(&s6);
+  nya_string_destroy(&s7);
+  nya_string_destroy(&s8);
+  nya_string_destroy(&s4);
+  nya_string_destroy(&s5_clone);
+  nya_string_destroy(&empty);
+  nya_string_destroy(&with_cap);
+  nya_string_destroy(&rep_test);
+  nya_string_destroy(&rem_test);
+  nya_string_destroy(&rev);
+  nya_string_destroy(&strip_test);
 
-  nya_array_free(&parts);
-  nya_array_free(&words);
-  nya_array_free(&lines);
+  nya_array_destroy(&parts);
+  nya_array_destroy(&words);
+  nya_array_destroy(&lines);
 
   nya_arena_garbage_collect(arena);
   nya_arena_destroy(arena);
 
-  printf("String tests passed.\n");
   return 0;
 }

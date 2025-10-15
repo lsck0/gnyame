@@ -39,7 +39,7 @@ extern u64             nya_string_count(const NYA_String* str, const NYA_String*
 extern void            nya_string_clear(NYA_String* str);
 extern void            nya_string_extend(NYA_String* str, const char* extension) __attr_overloaded;
 extern void            nya_string_extend(NYA_String* str, const NYA_String* extension) __attr_overloaded;
-extern void            nya_string_free(NYA_String *str);
+extern void            nya_string_destroy(NYA_String *str);
 extern void            nya_string_print(const NYA_String* str);
 extern void            nya_string_remove(NYA_String* str, const char* substr) __attr_overloaded;
 extern void            nya_string_remove(NYA_String* str, const NYA_String* substr) __attr_overloaded;
@@ -50,6 +50,7 @@ extern void            nya_string_reverse(NYA_String* str);
 extern s32             nya_string_sscanf(NYA_String* str, const char* fmt, ...) __attr_fmt_scanf(2, 3);
 extern void            nya_string_strip_prefix(NYA_String* str, const char* prefix);
 extern void            nya_string_strip_suffix(NYA_String* str, const char* suffix);
+extern char*           nya_string_to_cstr(const NYA_String* str);
 extern void            nya_string_to_lower(NYA_String* str);
 extern void            nya_string_to_upper(NYA_String* str);
 extern void            nya_string_trim_whitespace(NYA_String* str);

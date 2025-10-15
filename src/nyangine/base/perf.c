@@ -16,8 +16,8 @@
  * ─────────────────────────────────────────
  * */
 
-static NYA_Arena*               _nya_perf_arena        = nullptr;
-static NYA_PerfMeasurementArray _nya_perf_measurements = {0};
+__attr_maybe_unused static NYA_Arena*               _nya_perf_arena        = nullptr;
+__attr_maybe_unused static NYA_PerfMeasurementArray _nya_perf_measurements = {0};
 
 /*
  * ─────────────────────────────────────────
@@ -38,14 +38,19 @@ NYA_PerfMeasurement* _nya_perf_timer_get(const char* name) {
 void _nya_perf_timer_start(const char* name) {
   nya_assert(name);
 
-  NYA_PerfMeasurement* measurement = _nya_perf_timer_get(name);
-  nya_assert(measurement == nullptr, "Timer '%s' already started.", name);
-
   NYA_PerfMeasurement new_measurement = {
       .name    = name,
       .started = SDL_GetTicks(),
       .ended   = 0,
+      .elapsed = 0,
   };
+
+  NYA_PerfMeasurement* measurement = _nya_perf_timer_get(name);
+  if (measurement != nullptr) {
+    new_measurement.elapsed = measurement->elapsed;
+    *measurement            = new_measurement;
+    return;
+  }
 
   nya_array_push(&_nya_perf_measurements, new_measurement);
 }
@@ -57,16 +62,8 @@ void _nya_perf_timer_stop(const char* name) {
   nya_assert(measurement != nullptr, "Timer '%s' was not started.", name);
   nya_assert(measurement->ended == 0, "Timer '%s' was already stopped.", name);
 
-  measurement->ended = SDL_GetTicks();
-}
-
-void _nya_perf_timer_reset(const char* name) {
-  nya_assert(name);
-
-  NYA_PerfMeasurement* measurement = _nya_perf_timer_get(name);
-  nya_assert(measurement != nullptr, "Timer '%s' was not started.", name);
-
-  nya_array_remove_item(&_nya_perf_measurements, *measurement);
+  measurement->ended   = SDL_GetTicks();
+  measurement->elapsed = measurement->ended - measurement->started;
 }
 
 NYA_PerfMeasurementArray* _nya_perf_timer_get_all(void) {

@@ -50,7 +50,7 @@ s32 main(void) {
   s32Array xs_clone = nya_array_clone(&xs);
   nya_assert(xs_clone.length == xs.length);
   nya_assert(nya_array_equals(&xs, &xs_clone));
-  nya_array_free(&xs_clone);
+  nya_array_destroy(&xs_clone);
 
   // === slice ===
   s32Array part1 = nya_array_slice_incld(&xs, 0, 3);
@@ -78,7 +78,7 @@ s32 main(void) {
   nya_assert(nya_array_get(&ys, 0) == 4);
   nya_array_reverse(&ys);
   nya_assert(nya_array_equals(&ys, &orig));
-  nya_array_free(&orig);
+  nya_array_destroy(&orig);
 
   // === swap ===
   nya_array_swap(&ys, 0, 4);
@@ -100,9 +100,9 @@ s32 main(void) {
   nya_assert(!nya_array_equals(&xs, &zs));
 
   // === free ===
-  nya_array_free(&xs);
-  nya_array_free(&ys);
-  nya_array_free(&zs);
+  nya_array_destroy(&xs);
+  nya_array_destroy(&ys);
+  nya_array_destroy(&zs);
 
   // === cleanup ===
   nya_arena_garbage_collect(arena);
